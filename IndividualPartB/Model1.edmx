@@ -15,7 +15,7 @@
           <Property Name="SubDateTime" Type="datetime" Nullable="false" />
           <Property Name="OralMark" Type="float" Nullable="false" />
           <Property Name="TotalMark" Type="float" Nullable="false" />
-          <Property Name="CourseID" Type="int" Nullable="false" />
+          <Property Name="CourseID" Type="int" />
         </EntityType>
         <EntityType Name="AssignementsDetails">
           <Key>
@@ -35,7 +35,6 @@
           <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="EndDate" Type="date" Nullable="false" />
-          <Property Name="TrainerID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EnrollsOn">
           <Key>
@@ -73,9 +72,10 @@
           <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Subject" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CourseID" Type="int" />
         </EntityType>
         <Association Name="FK_Assignements_Courses">
-          <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
+          <End Role="Courses" Type="Self.Courses" Multiplicity="0..1" />
           <End Role="Assignements" Type="Self.Assignements" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Courses">
@@ -107,18 +107,6 @@
             </Principal>
             <Dependent Role="AssignementsDetails">
               <PropertyRef Name="StudentID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Courses_Trainers">
-          <End Role="Trainers" Type="Self.Trainers" Multiplicity="1" />
-          <End Role="Courses" Type="Self.Courses" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Trainers">
-              <PropertyRef Name="TrainerID" />
-            </Principal>
-            <Dependent Role="Courses">
-              <PropertyRef Name="TrainerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -166,10 +154,6 @@
             <End Role="Students" EntitySet="Students" />
             <End Role="AssignementsDetails" EntitySet="AssignementsDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_Courses_Trainers" Association="Self.FK_Courses_Trainers">
-            <End Role="Trainers" EntitySet="Trainers" />
-            <End Role="Courses" EntitySet="Courses" />
-          </AssociationSet>
           <AssociationSet Name="FK_EnrollsOn_Courses" Association="Self.FK_EnrollsOn_Courses">
             <End Role="Courses" EntitySet="Courses" />
             <End Role="EnrollsOn" EntitySet="EnrollsOn" />
@@ -194,7 +178,7 @@
           <Property Name="SubDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="OralMark" Type="Double" Nullable="false" />
           <Property Name="TotalMark" Type="Double" Nullable="false" />
-          <Property Name="CourseID" Type="Int32" Nullable="false" />
+          <Property Name="CourseID" Type="Int32" />
           <NavigationProperty Name="Cours" Relationship="Self.FK_Assignements_Courses" FromRole="Assignements" ToRole="Courses" />
           <NavigationProperty Name="Students" Relationship="Self.AssignementsDetails" FromRole="Assignements" ToRole="Students" />
         </EntityType>
@@ -208,9 +192,7 @@
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="TrainerID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Assignements" Relationship="Self.FK_Assignements_Courses" FromRole="Courses" ToRole="Assignements" />
-          <NavigationProperty Name="Trainer" Relationship="Self.FK_Courses_Trainers" FromRole="Courses" ToRole="Trainers" />
           <NavigationProperty Name="Students" Relationship="Self.EnrollsOn" FromRole="Courses" ToRole="Students" />
         </EntityType>
         <EntityType Name="Student">
@@ -243,10 +225,10 @@
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Subject" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Courses" Relationship="Self.FK_Courses_Trainers" FromRole="Trainers" ToRole="Courses" />
+          <Property Name="CourseID" Type="Int32" />
         </EntityType>
         <Association Name="FK_Assignements_Courses">
-          <End Role="Courses" Type="Self.Cours" Multiplicity="1" />
+          <End Role="Courses" Type="Self.Cours" Multiplicity="0..1" />
           <End Role="Assignements" Type="Self.Assignement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Courses">
@@ -254,18 +236,6 @@
             </Principal>
             <Dependent Role="Assignements">
               <PropertyRef Name="CourseID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Courses_Trainers">
-          <End Role="Trainers" Type="Self.Trainer" Multiplicity="1" />
-          <End Role="Courses" Type="Self.Cours" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Trainers">
-              <PropertyRef Name="TrainerID" />
-            </Principal>
-            <Dependent Role="Courses">
-              <PropertyRef Name="TrainerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -277,7 +247,7 @@
           <End Role="Courses" Type="Self.Cours" Multiplicity="*" />
           <End Role="Students" Type="Self.Student" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="PrivateSchoolEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="PrivateSchoolEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Assignements" EntityType="Self.Assignement" />
           <EntitySet Name="Courses" EntityType="Self.Cours" />
           <EntitySet Name="Students" EntityType="Self.Student" />
@@ -286,10 +256,6 @@
           <AssociationSet Name="FK_Assignements_Courses" Association="Self.FK_Assignements_Courses">
             <End Role="Courses" EntitySet="Courses" />
             <End Role="Assignements" EntitySet="Assignements" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Courses_Trainers" Association="Self.FK_Courses_Trainers">
-            <End Role="Trainers" EntitySet="Trainers" />
-            <End Role="Courses" EntitySet="Courses" />
           </AssociationSet>
           <AssociationSet Name="AssignementsDetails" Association="Self.AssignementsDetails">
             <End Role="Assignements" EntitySet="Assignements" />
@@ -305,7 +271,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="PrivateSchoolContextStoreContainer" CdmEntityContainer="PrivateSchoolEntities1">
+        <EntityContainerMapping StorageEntityContainer="PrivateSchoolContextStoreContainer" CdmEntityContainer="PrivateSchoolEntities2">
           <EntitySetMapping Name="Assignements">
             <EntityTypeMapping TypeName="PrivateSchoolContext.Assignement">
               <MappingFragment StoreEntitySet="Assignements">
@@ -328,7 +294,6 @@
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="TrainerID" ColumnName="TrainerID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -361,6 +326,7 @@
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

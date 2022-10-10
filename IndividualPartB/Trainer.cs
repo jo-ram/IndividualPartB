@@ -14,18 +14,10 @@ namespace IndividualPartB
     
     public partial class Trainer
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Trainer()
-        {
-            this.Courses = new HashSet<Cours>();
-        }
-    
         public int TrainerID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Subject { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cours> Courses { get; set; }
+        public Nullable<int> CourseID { get; set; }
     }
 }

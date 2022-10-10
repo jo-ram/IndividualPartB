@@ -13,10 +13,10 @@ namespace IndividualPartB
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class PrivateSchoolEntities1 : DbContext
+    public partial class PrivateSchoolEntities2 : DbContext
     {
-        public PrivateSchoolEntities1()
-            : base("name=PrivateSchoolEntities1")
+        public PrivateSchoolEntities2()
+            : base("name=PrivateSchoolEntities2")
         {
         }
     

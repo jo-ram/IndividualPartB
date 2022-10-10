@@ -14,22 +14,28 @@ namespace IndividualPartB
             StudentService studServ = new StudentService();
             TrainerService trainServ = new TrainerService();
             CourseService coursServ = new CourseService();
+            AssignmentService assServ = new AssignmentService();
+
+            int answer  = 0;
 
 
-            Console.WriteLine("Press:");
-            Console.WriteLine("1 to add Course");
-            Console.WriteLine("2 to add Student");
-            Console.WriteLine("3 to add Trainer");
-            Console.WriteLine("4 to add Assignment");
-            Console.WriteLine("5 to show list of all students");
-            Console.WriteLine("6 to show list of all students");
-            Console.WriteLine("7 to add Assignments per Course Per Student");
-            //Console.WriteLine("Press 7 to produce various standard queries (subject 6.a.) ");
-            Console.WriteLine("Press 8 to exit the program");
-            int answer = Convert.ToInt32(Console.ReadLine());
+            while (answer != 8) 
+            {
+                Console.WriteLine("Press:");
+                Console.WriteLine("1 to add Course");
+                Console.WriteLine("2 to add Student");
+                Console.WriteLine("3 to add Trainer");
+                Console.WriteLine("4 to add Assignment");
+                Console.WriteLine("5 to show list of all students");
+                Console.WriteLine("6 to show list of all students");
+                Console.WriteLine("7 to add Assignments per Course Per Student");
+                Console.WriteLine("Press 8 to exit the program");
+                answer = Convert.ToInt32(Console.ReadLine());
+
+            
 
 
-            if(answer == 1)
+            if (answer == 1)
             {
                 Cours course = new Cours();
                 Console.WriteLine("Give the Course Title");
@@ -60,8 +66,6 @@ namespace IndividualPartB
                 studentInsert.DateOfBirth = DateTime.Parse(Console.ReadLine());
                 Console.WriteLine("Give the Tuition Fees");
                 studentInsert.TuitionFees = decimal.Parse(Console.ReadLine());
-
-                //StudentService studServ1 = new StudentService();
                 studServ.CreateStudent(studentInsert);
             }
            
@@ -78,6 +82,22 @@ namespace IndividualPartB
                 trainServ.CreateTrainer(trainer);
             }
 
+            if (answer == 4)
+            {
+                Assignement assignment = new Assignement();
+                Console.WriteLine("Give the Assignment Title");
+                assignment.Title = Console.ReadLine();
+                Console.WriteLine("Give the Assignment Description");
+                assignment.Description = Console.ReadLine();
+                Console.WriteLine("Give the Submission Date (yyyy-mm-dd)");
+                assignment.SubDateTime = DateTime.Parse(Console.ReadLine());
+                Console.WriteLine("Give the Oral Mark");
+                assignment.OralMark = int.Parse(Console.ReadLine());
+                Console.WriteLine("Give the Total Mark");
+                assignment.TotalMark = int.Parse(Console.ReadLine());
+                assServ.CreateAssignment(assignment);
+            }
+
             if (answer == 5)
             {
 
@@ -85,6 +105,7 @@ namespace IndividualPartB
                 {
                     Console.WriteLine(student);
                 }
+            }
             }
         }
 
