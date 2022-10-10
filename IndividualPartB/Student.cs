@@ -31,5 +31,11 @@ namespace IndividualPartB
         public virtual ICollection<Assignement> Assignements { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cours> Courses { get; set; }
+
+        public string ToString()
+        {
+            return  $"{FirstName} {LastName}";
+        
+        }
     }
 }

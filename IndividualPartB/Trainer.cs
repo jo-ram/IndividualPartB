@@ -19,5 +19,10 @@ namespace IndividualPartB
         public string LastName { get; set; }
         public string Subject { get; set; }
         public Nullable<int> CourseID { get; set; }
+
+        public string ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 }

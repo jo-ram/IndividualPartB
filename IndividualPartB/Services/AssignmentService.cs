@@ -20,16 +20,17 @@ namespace IndividualPartB.Services
                 try
                 {
                     conn.Open();
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM Assignments", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM Assignements", conn);
                     SqlDataReader assignmentReader = cmd.ExecuteReader();
                     while (assignmentReader.Read())
                     {
                         Assignement assignment = new Assignement();
 
+                        assignment.Title = (string)assignmentReader["title"];
                         assignment.Description = (string)assignmentReader["description"];
                         assignment.SubDateTime = (DateTime)assignmentReader["subDateTime"];
-                        assignment.OralMark = (int)assignmentReader["oralMark"];
-                        assignment.TotalMark = (int)assignmentReader["totalMark"];
+                        assignment.OralMark = (float)assignmentReader["oralMark"];
+                        assignment.TotalMark = (float)assignmentReader["totalMark"];
 
 
                         assignments.Add(assignment);
@@ -50,6 +51,7 @@ namespace IndividualPartB.Services
                 }
             }
             return assignments;
+
         }
 
         public void CreateAssignment(Assignement assignment)
@@ -59,11 +61,12 @@ namespace IndividualPartB.Services
                 try
                 {
                     conn.Open();
-                    string queryString = "insert into Assignments (description,subDateTime,oralMark,totalMark) " +
-                                        "values (@description,@subDateTime,@oralMark,@totalMark)";
+                    string queryString = "insert into Assignements (Title,Description,SubDateTime,OralMark,TotalMark) " +
+                                        "values (@title,@description,@subDateTime,@oralMark,@totalMark)";
 
                     SqlCommand cmd = new SqlCommand(queryString, conn);
 
+                    cmd.Parameters.Add(new SqlParameter("@title", assignment.Title));
                     cmd.Parameters.Add(new SqlParameter("@description", assignment.Description));
                     cmd.Parameters.Add(new SqlParameter("@subDateTime", assignment.SubDateTime));
                     cmd.Parameters.Add(new SqlParameter("@oralMark", assignment.OralMark));
